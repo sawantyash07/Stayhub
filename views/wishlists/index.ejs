@@ -1,0 +1,46 @@
+<% layout('layouts/boilerplate') -%>
+
+<div class="row mt-4 mb-5">
+    <div class="col-12">
+        <h2 class="fw-bold mb-4 border-bottom pb-3">Wishlists</h2>
+        
+        <% if(wishlists && wishlists.length > 0) { %>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4 mt-1">
+                <% for(let listing of wishlists) { %>
+                    <div class="col">
+                        <a href="/listings/<%= listing._id %>" class="listing-link">
+                            <div class="card listing-card h-100 position-relative">
+                                <div class="card-img-wrapper position-relative">
+                                    <img src="<%= listing.image %>" class="card-img-top" alt="Explore listing stay">
+                                    <div class="position-absolute top-0 end-0 p-3 z-3">
+                                        <form method="POST" action="/wishlists/<%= listing._id %>/toggle" style="z-index: 10;">
+                                            <button type="submit" class="btn btn-link p-0 border-0 heart-btn" 
+                                                style="color: #e61e4d; font-size: 1.5rem; text-shadow: 0 0 10px rgba(0,0,0,0.3);">
+                                                <i class="fa-solid fa-heart"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="listing-card-body mt-2">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <h5 class="listing-title"><%= listing.location %>, <%= listing.country %></h5>
+                                        <span class="text-dark fw-light ms-2"><i class="fa-solid fa-star fa-xs me-1"></i><%= (Math.random() * (5.0 - 4.5) + 4.5).toFixed(2) %></span>
+                                    </div>
+                                    <p class="listing-desc mb-0"><%= listing.title %></p>
+                                    <p class="listing-price"><span class="fw-bold fs-6">₹<%= listing.price.toLocaleString("en-IN") %></span> night</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                <% } %>
+            </div>
+        <% } else { %>
+            <div class="p-5 text-center mt-4 border border-secondary rounded-4 bg-light">
+                <i class="fa-regular fa-heart text-muted mb-3" style="font-size: 4rem;"></i>
+                <h4 class="fw-bold fs-3 text-dark">Create your first wishlist</h4>
+                <p class="text-muted mb-4 fs-5">As you search, tap the heart icon to save your favorite places and Experiences to a wishlist.</p>
+                <a href="/listings" class="btn btn-dark px-4 py-3 rounded-pill fw-bold fs-5 mt-2">Start exploring</a>
+            </div>
+        <% } %>
+    </div>
+</div>

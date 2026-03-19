@@ -1,0 +1,304 @@
+<% layout('layouts/boilerplate') -%>
+<%
+  let avgRating = 0;
+  if(listing.reviews && listing.reviews.length > 0) {
+      let sum = 0;
+      for(let review of listing.reviews) {
+          sum += review.rating;
+      }
+      avgRating = (sum / listing.reviews.length).toFixed(1);
+  }
+%>
+
+<div class="row mt-4 mb-5">
+    <div class="col-lg-10 offset-lg-1 col-md-12">
+        <h2 class="fw-bold mb-3"><%= listing.title %></h2>
+        
+        <div class="d-flex justify-content-between flex-wrap align-items-center mb-4 gap-3">
+             <div class="d-flex align-items-center flex-wrap gap-2 text-dark fs-6">
+                  <span class="fw-semibold"><i class="fa-solid fa-star fa-sm me-1 text-warning"></i><%= avgRating > 0 ? avgRating : "New" %></span>
+                  <span class="text-muted">·</span>
+                  <a href="#reviews" class="text-dark fw-semibold text-decoration-underline"><%= listing.reviews ? listing.reviews.length : 0 %> reviews</a>
+                  <span class="text-muted">·</span>
+                  <a href="#" class="text-dark fw-semibold text-decoration-underline"><%= listing.location %>, <%= listing.country %></a>
+             </div>
+             <div>
+                  <button class="btn btn-light hover-bg rounded-pill px-3 py-1 bg-white fw-semibold me-2 border-0"><i class="fa-solid fa-arrow-up-from-bracket me-2"></i>Share</button>
+                  <% if(currentUser) { %>
+                  <form method="POST" action="/wishlists/<%= listing._id %>/toggle" class="d-inline">
+                       <button class="btn btn-light hover-bg rounded-pill px-3 py-1 bg-white fw-semibold border-0">
+                           <i class="<%= currentUser.wishlist && currentUser.wishlist.includes(listing._id.toString()) ? 'fa-solid text-danger' : 'fa-regular' %> fa-heart me-2"></i>
+                           <%= currentUser.wishlist && currentUser.wishlist.includes(listing._id.toString()) ? 'Saved' : 'Save' %>
+                       </button>
+                  </form>
+                  <% } %>
+             </div>
+        </div>
+
+        <div class="card listing-card border-0 mb-4 show-img-container">
+            <img src="<%= (listing.image && listing.image.url) ? listing.image.url : listing.image %>" class="card-img-top show-img" alt="Property Image">
+        </div>
+        
+        <div class="row gx-5">
+            <div class="col-lg-8 mb-4">
+                <div class="d-flex justify-content-between align-items-center">
+                     <div>
+                         <h4 class="fw-bold mb-1 fs-3">Entire place hosted by <%= listing.owner ? listing.owner.username : "Owner" %></h4>
+                         <p class="text-muted fs-6 mb-0">4 guests · 2 bedrooms · 2 beds · 1.5 baths</p>
+                     </div>
+                     <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=100&h=100" class="rounded-circle shadow-sm" style="width: 56px; height: 56px; object-fit: cover;">
+                </div>
+                <hr class="my-4">
+                
+                <div class="mb-4">
+                    <div class="d-flex align-items-start mb-4">
+                         <i class="fa-solid fa-door-open fs-3 me-4 mt-1 text-dark"></i>
+                         <div>
+                             <h6 class="fw-bold mb-1 fs-5">Self check-in</h6>
+                             <p class="text-muted mb-0">Check yourself in with the lockbox.</p>
+                         </div>
+                    </div>
+                    <div class="d-flex align-items-start mb-4">
+                         <i class="fa-solid fa-medal fs-3 me-4 mt-1 text-dark"></i>
+                         <div>
+                             <h6 class="fw-bold mb-1 fs-5">StayHub is a Superhost</h6>
+                             <p class="text-muted mb-0">Superhosts are experienced, highly rated hosts who are committed to providing great stays for guests.</p>
+                         </div>
+                    </div>
+                    <div class="d-flex align-items-start mb-0">
+                         <i class="fa-regular fa-calendar fs-3 me-4 mt-1 text-dark"></i>
+                         <div>
+                             <h6 class="fw-bold mb-1 fs-5">Free cancellation for 48 hours.</h6>
+                         </div>
+                    </div>
+                </div>
+                
+                <hr class="my-4">
+                
+                <!-- Anti-Gravity feature description -->
+                <div class="py-2 bg-light rounded-3 px-4 mb-4" style="background-color: #f7f7f7 !important;">
+                     <h3 class="fw-bold text-danger mb-2">s t a y <span class="text-dark">h u b</span><span class="text-danger ms-1">c o v e r</span></h3>
+                     <p class="mb-0 text-muted">Every booking includes free protection from Host cancellations, listing inaccuracies, and other issues like trouble checking in.</p>
+                     <a href="#" class="text-dark fw-bold mt-2 d-inline-block text-decoration-underline">Learn more</a>
+                </div>
+
+                <hr class="my-4">
+                
+                <h4 class="fw-bold mb-3">About this space</h4>
+                <p class="fs-6 text-dark" style="white-space: pre-wrap; line-height: 1.6;"><%= listing.description %></p>
+                <a href="#" class="text-dark fw-bold mt-2 d-inline-block text-decoration-underline">Show more ></a>
+
+                <% if(currentUser && listing.owner && currentUser._id.equals(listing.owner._id)) { %>
+                <hr class="my-4">
+                <div class="mt-4 pt-2">
+                     <h4 class="fw-bold mb-3">Settings</h4>
+                     <div class="d-flex gap-3">
+                         <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark px-4 py-2 rounded-pill fw-semibold fs-6">Edit this Stay</a>
+                         <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" class="m-0">
+                             <button class="btn btn-outline-danger px-4 py-2 rounded-pill fw-semibold fs-6">Delete from Platform</button>
+                         </form>
+                     </div>
+                </div>
+                <% } %>
+
+                <hr class="my-4">
+                <div class="mt-4 pt-2" id="reviews">
+                     <h4 class="fw-bold mb-3">Leave a Review</h4>
+                     <% if(currentUser) { %>
+                     <form action="/listings/<%= listing.id %>/reviews" method="POST" class="mb-5 needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold d-block">Overall Rating</label>
+                            <fieldset class="starability-grow">
+                                <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
+                                <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                                <label for="first-rate1" title="Terrible">1 star</label>
+                                <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                                <label for="first-rate2" title="Not good">2 stars</label>
+                                <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                                <label for="first-rate3" title="Average">3 stars</label>
+                                <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                                <label for="first-rate4" title="Very good">4 stars</label>
+                                <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                                <label for="first-rate5" title="Amazing">5 stars</label>
+                            </fieldset>
+                        </div>
+                        <div class="mb-3">
+                            <label for="comment" class="form-label fw-semibold">Comments</label>
+                            <textarea name="review[comment]" id="comment" cols="30" rows="4" class="form-control rounded-3" required></textarea>
+                            <div class="invalid-feedback">Please submit some comments for review</div>
+                        </div>
+                        <button class="btn btn-outline-dark px-4 py-2 rounded-pill fw-semibold border-2">Submit</button>
+                     </form>
+                     <% } else { %>
+                        <p class="text-muted mb-4">You must be <a href="/login" class="text-danger fw-bold">logged in</a> to leave a review.</p>
+                     <% } %>
+
+                     <% if(listing.reviews && listing.reviews.length > 0) { %>
+                     <h4 class="fw-bold mb-3"><i class="fa-solid fa-star fa-sm me-1 text-warning"></i><%= avgRating %> · <%= listing.reviews.length %> reviews</h4>
+                     <div class="row mt-4">
+                        <% for(let review of listing.reviews) { %>
+                            <div class="col-md-6 mb-4">
+                                <div class="card p-4 border rounded-4 bg-white h-100 shadow-sm" style="border-color: #dddddd !important;">
+                                    <div class="card-body p-0">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&q=80&w=100&h=100" class="rounded-circle me-3" style="width: 48px; height: 48px; object-fit: cover;">
+                                            <div>
+                                                <h6 class="card-title fw-bold mb-0 fs-5">@<%= review.author ? review.author.username : "Anonymous" %></h6>
+                                                <small class="text-muted fw-semibold">
+                                                    <% if (review.createdAt) { %>
+                                                        <%= new Date(review.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) %>
+                                                    <% } else { %>
+                                                        Recently
+                                                    <% } %>
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="mb-2">
+                                            <p class="starability-result card-text" data-rating="<%= review.rating %>"></p>
+                                        </div>
+                                        <p class="card-text text-dark mt-2 mb-3 fs-6" style="white-space: pre-wrap; line-height: 1.5; color: #222222 !important;"><%= review.comment %></p>
+                                        
+                                        <% if(currentUser && review.author && currentUser._id.equals(review.author._id)) { %>
+                                        <form class="mb-0 mt-auto" method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+                                            <button class="btn btn-sm btn-outline-dark px-3 rounded-pill fw-semibold border-2 hover-bg">Remove Review</button>
+                                        </form>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                     </div>
+                     <% } else { %>
+                        <h5 class="fw-bold mb-3 mt-4 text-muted">No reviews yet</h5>
+                     <% } %>
+                </div>
+
+                <hr class="my-4">
+                <div class="mt-4 mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="fw-bold mb-0">Where you'll be</h4>
+                        <div class="btn-group" role="group" aria-label="Map Style Switcher">
+                            <button type="button" class="btn btn-sm btn-outline-dark px-3 fw-bold active" id="btn-streets">Normal</button>
+                            <button type="button" class="btn btn-sm btn-outline-dark px-3 fw-bold" id="btn-satellite">Satellite</button>
+                            <button type="button" class="btn btn-sm btn-outline-dark px-3 fw-bold" id="btn-outdoors">Outdoors</button>
+                        </div>
+                    </div>
+                    <p class="fs-6 text-muted mb-4"><%= listing.location %>, <%= listing.country %></p>
+                    <div id="map" style="width: 100%; height: 450px; border: 1px solid #ddd;" class="rounded-4 mb-4 z-0 position-relative shadow-sm"></div>
+                </div>
+
+                <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+                <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+                <script>
+                    const mapToken = "<%= mapToken %>";
+                    const listingCoordStr = "<%- listing.geometry && listing.geometry.coordinates ? JSON.stringify(listing.geometry.coordinates) : 'null' %>";
+                    let coordinates;
+                    try { coordinates = JSON.parse(listingCoordStr); } catch(e) {}
+                    
+                    if (!coordinates || coordinates.length < 2) coordinates = [77.2090, 28.6139]; // Default Delhi (India) if none
+                    
+                    mapboxgl.accessToken = mapToken;
+                    const map = new mapboxgl.Map({
+                        container: 'map',
+                        style: 'mapbox://styles/mapbox/streets-v12',
+                        center: coordinates,
+                        zoom: 12, // Increased zoom for better detail
+                        projection: 'globe' // Modern globe projection
+                    });
+
+                    // Add navigation controls (Zoom + Compass)
+                    map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+                    map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
+
+                    // Add Custom Marker with Popup
+                    const marker = new mapboxgl.Marker({ color: "#e61e4d", scale: 1.2 })
+                        .setLngLat(coordinates)
+                        .setPopup(new mapboxgl.Popup({offset: 25, closeButton: false})
+                            .setHTML(`<div class="p-1"><h6 class="fw-bold mb-1"><%= listing.title %></h6><p class="mb-0 text-muted small"><%= listing.location %></p></div>`))
+                        .addTo(map);
+
+                    // Style Switcher Logic
+                    document.getElementById('btn-streets').onclick = () => {
+                        map.setStyle('mapbox://styles/mapbox/streets-v12');
+                        setActive('btn-streets');
+                    };
+                    document.getElementById('btn-satellite').onclick = () => {
+                        map.setStyle('mapbox://styles/mapbox/satellite-streets-v12');
+                        setActive('btn-satellite');
+                    };
+                    document.getElementById('btn-outdoors').onclick = () => {
+                        map.setStyle('mapbox://styles/mapbox/outdoors-v12');
+                        setActive('btn-outdoors');
+                    };
+
+                    function setActive(id) {
+                        ['btn-streets', 'btn-satellite', 'btn-outdoors'].forEach(b => {
+                            document.getElementById(b).classList.remove('active');
+                        });
+                        document.getElementById(id).classList.add('active');
+                    }
+                </script>
+
+            </div>
+            
+            <div class="col-lg-4 position-relative">
+                <div class="card shadow border p-4 sticky-top bg-white" style="border-radius: 12px; top: 120px;">
+                    <div class="d-flex justify-content-between align-items-end mb-3">
+                        <div>
+                             <span class="fs-3 fw-bold">₹<%= listing.price.toLocaleString("en-IN") %></span> <span class="text-muted fs-6">night</span>
+                        </div>
+                        <div>
+                             <span class="fw-semibold"><i class="fa-solid fa-star fa-sm me-1 text-warning"></i><%= avgRating > 0 ? avgRating : "New" %></span>
+                             <span class="text-muted ms-1 text-decoration-underline">(<%= listing.reviews ? listing.reviews.length : 0 %> reviews)</span>
+                        </div>
+                    </div>
+                    
+                    <form action="/listings/<%= listing._id %>/bookings" method="POST" class="needs-validation" novalidate>
+                        <div class="border rounded-4 mb-3 border-secondary overflow-hidden bg-white">
+                            <div class="d-flex border-bottom border-secondary">
+                                <div class="p-2 ps-3 w-50 border-end border-secondary pointer hover-bg rounded-top-start position-relative">
+                                    <label for="checkInDate" class="m-0 text-dark" style="font-size:0.65rem; font-weight:800; letter-spacing:1px; cursor: pointer; display: block;">CHECK-IN</label>
+                                    <input type="date" id="checkInDate" name="booking[checkInDate]" class="form-control border-0 p-0 shadow-none bg-transparent fw-semibold text-dark w-100" required style="font-size: 0.95rem; cursor: pointer;" min="<%= new Date().toISOString().split('T')[0] %>">
+                                </div>
+                                <div class="p-2 ps-3 w-50 pointer hover-bg rounded-top-end position-relative">
+                                    <label for="checkOutDate" class="m-0 text-dark" style="font-size:0.65rem; font-weight:800; letter-spacing:1px; cursor: pointer; display: block;">CHECKOUT</label>
+                                    <input type="date" id="checkOutDate" name="booking[checkOutDate]" class="form-control border-0 p-0 shadow-none bg-transparent fw-semibold text-dark w-100" required style="font-size: 0.95rem; cursor: pointer;" min="<%= new Date().toISOString().split('T')[0] %>">
+                                </div>
+                            </div>
+                            <div class="p-2 ps-3 pointer hover-bg rounded-bottom">
+                                <div style="font-size:0.65rem; font-weight:800; letter-spacing:1px">GUESTS</div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-dark" style="font-size: 0.95rem">1 guest</span>
+                                    <i class="fa-solid fa-chevron-down text-dark"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-danger w-100 py-3 fw-bold rounded-4 mb-3 fs-5" style="background: linear-gradient(to right, #e61e4d 0%, #e31c5f 50%, #d70466 100%); border:none;">Reserve</button>
+                    </form>
+                    
+                    <p class="text-center text-muted mb-4 fs-6">You won't be charged yet</p>
+                    
+                    <div class="d-flex justify-content-between mb-3 fs-6">
+                        <span class="text-decoration-underline text-dark">₹<%= listing.price.toLocaleString("en-IN") %> x 5 nights</span>
+                        <span class="text-dark">₹<%= (listing.price * 5).toLocaleString("en-IN") %></span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3 fs-6">
+                        <span class="text-decoration-underline text-dark">Cleaning fee</span>
+                        <span class="text-dark">₹<%= (1000).toLocaleString("en-IN") %></span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3 border-bottom pb-4 fs-6">
+                        <span class="text-decoration-underline text-dark">StayHub service fee</span>
+                        <span class="text-dark">₹<%= Math.floor(listing.price * 5 * 0.14).toLocaleString("en-IN") %></span>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between fw-bold fs-5 mt-4">
+                        <span class="text-dark">Total before taxes</span>
+                        <span class="text-dark">₹<%= ((listing.price * 5) + 1000 + Math.floor(listing.price * 5 * 0.14)).toLocaleString("en-IN") %></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

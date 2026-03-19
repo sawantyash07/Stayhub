@@ -1,0 +1,54 @@
+<% layout('layouts/boilerplate') -%>
+
+<div class="row mt-5 mb-5">
+    <div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+        <h3 class="mb-4 fw-bold">StayHub your home</h3>
+        
+        <div class="card shadow-sm border p-4" style="border-radius: 15px;">
+             <form method="POST" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">
+                 <div class="form-floating mb-3">
+                     <input name="listing[title]" placeholder="Catchy title for your place" type="text" class="form-control" id="title" required />
+                     <label for="title">Title</label>
+                     <div class="invalid-feedback">Title is required.</div>
+                 </div>
+                 
+                 <div class="form-floating mb-3">
+                     <textarea name="listing[description]" placeholder="Detailed description of your property..." class="form-control" id="description" style="height: 100px" required></textarea>
+                     <label for="description">Description</label>
+                     <div class="invalid-feedback">Description is required.</div>
+                 </div>
+                 
+                 <div class="mb-3">
+                     <label for="image" class="form-label ms-1 text-muted">Upload Listing Image</label>
+                     <input name="listing[image]" type="file" class="form-control" id="image" required />
+                     <div class="invalid-feedback">Please upload a valid image.</div>
+                 </div>
+                 
+                 <div class="row g-3 mb-3">
+                     <div class="col-md-4">
+                         <div class="form-floating">
+                             <input name="listing[price]" placeholder="1500" type="number" class="form-control" id="price" required />
+                             <label for="price">Price (₹)</label>
+                             <div class="invalid-feedback">Please provide a valid price.</div>
+                         </div>
+                     </div>
+                     <div class="col-md-8">
+                         <div class="form-floating">
+                             <input name="listing[country]" placeholder="Which country?" type="text" class="form-control" id="country" required />
+                             <label for="country">Country</label>
+                             <div class="invalid-feedback">Country should be valid.</div>
+                         </div>
+                     </div>
+                 </div>
+
+                 <div class="form-floating mb-4">
+                     <input name="listing[location]" placeholder="City, Region" type="text" class="form-control" id="location" required />
+                     <label for="location">Location (City, State)</label>
+                     <div class="invalid-feedback">Please provide a location.</div>
+                 </div>
+                 
+                 <button class="btn btn-danger btn-lg w-100 fw-bold rounded-pill shadow-sm">Publish Listing</button>
+             </form>
+        </div>
+    </div>
+</div>

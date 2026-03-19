@@ -1,0 +1,55 @@
+<% layout('layouts/boilerplate') -%>
+
+<div class="row mt-5 mb-5">
+    <div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+        <h3 class="mb-4 fw-bold">Edit your Stay</h3>
+        
+        <div class="card shadow-sm border p-4" style="border-radius: 15px;">
+             <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" novalidate class="needs-validation" enctype="multipart/form-data">
+                 <div class="form-floating mb-3">
+                     <input name="listing[title]" value="<%= listing.title %>" type="text" class="form-control" id="title" required />
+                     <label for="title">Title</label>
+                     <div class="invalid-feedback">Title is required.</div>
+                 </div>
+                 
+                 <div class="form-floating mb-3">
+                     <textarea name="listing[description]" class="form-control" id="description" style="height: 100px" required><%= listing.description %></textarea>
+                     <label for="description">Description</label>
+                     <div class="invalid-feedback">Description is required.</div>
+                 </div>
+                 
+                 <div class="mb-3">
+                     <p class="mb-2 text-muted ms-1 small fw-bold">Current Listing Image</p>
+                     <img src="<%= (listing.image && listing.image.url) ? listing.image.url : listing.image %>" class="img-fluid rounded-3 shadow-sm mb-3 border" style="max-height: 200px; width: 100%; object-fit: cover;" alt="Current Image">
+                     <label for="image" class="form-label ms-1 text-muted">Upload New Image (Optional)</label>
+                     <input name="listing[image]" type="file" class="form-control" id="image" />
+                 </div>
+                 
+                 <div class="row g-3 mb-3">
+                     <div class="col-md-4">
+                         <div class="form-floating">
+                             <input name="listing[price]" value="<%= listing.price %>" type="number" class="form-control" id="price" required />
+                             <label for="price">Price / Night (₹)</label>
+                             <div class="invalid-feedback">Please provide a valid price.</div>
+                         </div>
+                     </div>
+                     <div class="col-md-8">
+                         <div class="form-floating">
+                             <input name="listing[country]" value="<%= listing.country %>" type="text" class="form-control" id="country" required />
+                             <label for="country">Country</label>
+                             <div class="invalid-feedback">Country should be valid.</div>
+                         </div>
+                     </div>
+                 </div>
+
+                 <div class="form-floating mb-4">
+                     <input name="listing[location]" value="<%= listing.location %>" type="text" class="form-control" id="location" required />
+                     <label for="location">Location (City, State)</label>
+                     <div class="invalid-feedback">Please provide a location.</div>
+                 </div>
+                 
+                 <button class="btn btn-dark btn-lg w-100 fw-bold rounded-pill shadow-sm">Update Listing</button>
+             </form>
+        </div>
+    </div>
+</div>

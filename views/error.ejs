@@ -1,0 +1,25 @@
+<% layout('layouts/boilerplate') -%>
+
+<div class="row mt-5 mb-5">
+    <div class="col-8 offset-2">
+        <div class="alert alert-danger shadow-sm rounded-4" role="alert">
+            <div class="d-flex align-items-center mb-3">
+                <i class="fa-solid fa-triangle-exclamation fs-3 me-3"></i>
+                <h4 class="alert-heading fw-bold mb-0 flex-grow-1"><%= err.message %></h4>
+            </div>
+            
+            <hr>
+            
+            <% if(process.env.NODE_ENV !== 'production') { %>
+                <p class="mb-2 fw-bold text-dark mt-3">Stack Trace:</p>
+                <div class="bg-dark text-light p-3 rounded-3" style="max-height: 400px; overflow-y: auto;">
+                    <pre class="m-0" style="font-size: 0.85rem;"><code><%= err.stack %></code></pre>
+                </div>
+            <% } %>
+            
+            <div class="text-center mt-4">
+                <a href="/listings" class="btn btn-outline-danger rounded-pill fw-bold px-4 py-2 hover-shadow">Return to Home</a>
+            </div>
+        </div>
+    </div>
+</div>

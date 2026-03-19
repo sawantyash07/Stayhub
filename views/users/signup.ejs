@@ -1,0 +1,51 @@
+<% layout('layouts/boilerplate') -%>
+
+<div class="row mt-5 mb-5">
+    <div class="col-lg-4 offset-lg-4 col-md-6 offset-md-3">
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+            <div class="bg-danger py-4 text-center" style="background: linear-gradient(135deg, #FF385C 0%, #BD1E59 100%) !important;">
+                <h2 class="text-white fw-bold mb-0">StayHub</h2>
+                <p class="text-white-50 small mb-0 mt-1">Sign up to start your journey</p>
+            </div>
+            <div class="card-body p-4 p-md-5">
+                <form action="/signup" method="POST" class="needs-validation" novalidate>
+                    <div class="mb-4">
+                        <label for="username" class="form-label fw-semibold small text-muted text-uppercase mb-1" style="letter-spacing: 0.5px;">Username</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 rounded-start-3"><i class="fa-regular fa-user text-muted"></i></span>
+                            <input name="username" id="username" type="text" class="form-control bg-light border-start-0 rounded-end-3 py-2 px-3 shadow-none" placeholder="Choose a username" required>
+                            <div class="invalid-feedback">Username is required.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="email" class="form-label fw-semibold small text-muted text-uppercase mb-1" style="letter-spacing: 0.5px;">Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 rounded-start-3"><i class="fa-regular fa-envelope text-muted"></i></span>
+                            <input name="email" id="email" type="email" class="form-control bg-light border-start-0 rounded-end-3 py-2 px-3 shadow-none" placeholder="Enter your email" required>
+                            <div class="invalid-feedback">Please provide a valid email.</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        <label for="password" class="form-label fw-semibold small text-muted text-uppercase mb-1" style="letter-spacing: 0.5px;">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 rounded-start-3"><i class="fa-solid fa-lock text-muted"></i></span>
+                            <input name="password" id="password" type="password" class="form-control bg-light border-start-0 rounded-end-3 py-2 px-3 shadow-none" placeholder="Create a password" required>
+                            <div class="invalid-feedback">Password is required.</div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-danger w-100 py-3 fw-bold rounded-3 shadow-sm hover-up border-0 fs-5 mb-4" style="background: linear-gradient(to right, #e61e4d 0%, #e31c5f 50%, #d70466 100%); transition: all 0.3s ease;">
+                        Sign Up
+                    </button>
+                    
+                    <div class="text-center">
+                        <span class="text-muted small">Already have an account?</span>
+                        <a href="/login" class="text-danger small fw-bold text-decoration-none border-bottom border-danger ms-1">Login here</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

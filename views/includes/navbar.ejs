@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-lg border-bottom sticky-top shadow-sm z-3">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center fw-bold text-danger fs-3" href="/listings">
+      <i class="fa-solid fa-house-user fs-3 me-2"></i> StayHub
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav w-100 justify-content-between align-items-center">
+          <div class="d-flex mx-auto mt-3 mt-lg-0">
+              <form action="/listings" method="GET" class="d-flex search-bar border shadow-sm rounded-pill p-1 align-items-center bg-white" role="search" style="min-width: 320px;">
+                  <input name="search" class="form-control border-0 rounded-pill px-4" type="search" placeholder="Search destinations" aria-label="Search" style="box-shadow: none;">
+                  <button class="btn btn-danger rounded-circle text-white d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;" type="submit" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+              </form>
+          </div>
+        <div class="d-flex align-items-center mt-3 mt-lg-0">
+            <a class="nav-link fw-bold me-3 text-dark hover-bg rounded-pill px-3 py-2 d-none d-md-block" href="/listings/new">StayHub your home</a>
+            
+            <div class="d-flex gap-2 me-3 align-items-center">
+                <% if(!currentUser) { %>
+                    <a href="/signup" class="btn btn-danger rounded-pill px-4 py-2 fw-bold shadow-sm" style="background: linear-gradient(to right, #e61e4d 0%, #e31c5f 50%, #d70466 100%); border:none;">Sign up</a>
+                    <a href="/login" class="btn btn-light rounded-pill px-4 py-2 fw-bold border shadow-sm">Log in</a>
+                <% } %>
+                <% if(currentUser) { %>
+                    <a href="/logout" class="btn btn-outline-dark rounded-pill px-4 py-2 fw-bold shadow-sm">Log out</a>
+                <% } %>
+            </div>
+
+            <div class="dropdown">
+                <button class="btn btn-light rounded-pill border shadow-sm dropdown-icon text-muted px-3 py-2 d-flex align-items-center bg-white gap-2" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
+                    <i class="fa-solid fa-bars"></i>
+                    <i class="fa-solid fa-circle-user fs-4 text-secondary"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end mt-2 shadow-sm rounded-4 border-0 p-2">
+                    <% if(currentUser) { %>
+                        <li class="px-3 py-2 border-bottom mb-2"><span class="fw-bold small">Hello, <%= currentUser.username %></span></li>
+                        <li><a class="dropdown-item fw-bold mt-1 mb-1 rounded-3 py-2" href="/bookings">My Trips</a></li>
+                        <li><a class="dropdown-item fw-bold mt-1 mb-1 rounded-3 py-2" href="/wishlists">Wishlists</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item hover-bg rounded-3 py-2" href="/listings/new">StayHub your home</a></li>
+                    <% } else { %>
+                        <li><a class="dropdown-item fw-bold mt-1 mb-1 rounded-3 py-2 text-danger" href="/signup">Sign up</a></li>
+                        <li><a class="dropdown-item hover-bg rounded-3 py-2" href="/login">Log in</a></li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

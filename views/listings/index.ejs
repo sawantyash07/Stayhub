@@ -1,0 +1,147 @@
+<% layout('layouts/boilerplate') -%>
+
+<!-- Modern Categories & Tax Toggle -->
+<div id="filters" class="d-flex align-items-center mb-4 mt-4 bg-white sticky-top shadow-sm py-2 px-1 z-2" style="top: 80px; overflow-x: auto; white-space: nowrap; -ms-overflow-style: none; scrollbar-width: none;">
+    <div class="d-flex align-items-center gap-4 flex-grow-1 ps-2">
+        <a href="/listings" class="filter-item text-center text-decoration-none text-dark <%= !queryParams.category ? 'active' : '' %>">
+            <div><i class="fa-solid fa-list fs-5"></i></div>
+            <p class="mb-0" style="font-size: 0.75rem;">All</p>
+        </a>
+        <a href="/listings?category=Trending" class="filter-item text-center text-decoration-none text-dark <%= queryParams.category === 'Trending' ? 'active' : '' %>">
+            <div><i class="fa-solid fa-fire fs-5"></i></div>
+            <p class="mb-0" style="font-size: 0.75rem;">Trending</p>
+        </a>
+        <a href="/listings?category=Rooms" class="filter-item text-center text-decoration-none text-dark <%= queryParams.category === 'Rooms' ? 'active' : '' %>">
+            <div><i class="fa-solid fa-bed fs-5"></i></div>
+            <p class="mb-0" style="font-size: 0.75rem;">Rooms</p>
+        </a>
+        <a href="/listings?category=Iconic Cities" class="filter-item text-center text-decoration-none text-dark <%= queryParams.category === 'Iconic Cities' ? 'active' : '' %>">
+            <div><i class="fa-solid fa-mountain-city fs-5"></i></div>
+            <p class="mb-0" style="font-size: 0.75rem;">Iconic Cities</p>
+        </a>
+        <a href="/listings?category=Mountains" class="filter-item text-center text-decoration-none text-dark <%= queryParams.category === 'Mountains' ? 'active' : '' %>">
+            <div><i class="fa-solid fa-mountain fs-5"></i></div>
+            <p class="mb-0" style="font-size: 0.75rem;">Mountains</p>
+        </a>
+        <a href="/listings?category=Castles" class="filter-item text-center text-decoration-none text-dark <%= queryParams.category === 'Castles' ? 'active' : '' %>">
+            <div><i class="fa-brands fa-fort-awesome fs-5"></i></div>
+            <p class="mb-0" style="font-size: 0.75rem;">Castles</p>
+        </a>
+        <a href="/listings?category=Amazing Pools" class="filter-item text-center text-decoration-none text-dark <%= queryParams.category === 'Amazing Pools' ? 'active' : '' %>">
+            <div><i class="fa-solid fa-person-swimming fs-5"></i></div>
+            <p class="mb-0" style="font-size: 0.75rem;">Pools</p>
+        </a>
+        <a href="/listings?category=Camping" class="filter-item text-center text-decoration-none text-dark <%= queryParams.category === 'Camping' ? 'active' : '' %>">
+            <div><i class="fa-solid fa-campground fs-5"></i></div>
+            <p class="mb-0" style="font-size: 0.75rem;">Camping</p>
+        </a>
+        <a href="/listings?category=Farms" class="filter-item text-center text-decoration-none text-dark <%= queryParams.category === 'Farms' ? 'active' : '' %>">
+            <div><i class="fa-solid fa-cow fs-5"></i></div>
+            <p class="mb-0" style="font-size: 0.75rem;">Farms</p>
+        </a>
+        <a href="/listings?category=Arctic" class="filter-item text-center text-decoration-none text-dark <%= queryParams.category === 'Arctic' ? 'active' : '' %>">
+            <div><i class="fa-solid fa-snowflake fs-5"></i></div>
+            <p class="mb-0" style="font-size: 0.75rem;">Arctic</p>
+        </a>
+    </div>
+
+    <!-- Tax Toggle -->
+    <div class="tax-toggle ms-auto me-3 border rounded-3 p-3 d-flex align-items-center shadow-sm bg-white hover-bg pointer transition-all" style="height: 52px;">
+        <div class="form-check form-switch form-check-reverse m-0 d-flex align-items-center gap-3">
+            <label class="form-check-label fw-bold small mb-0 pointer" for="flexSwitchCheckDefault">Display total after taxes</label>
+            <input class="form-check-input pointer" type="checkbox" id="flexSwitchCheckDefault">
+        </div>
+    </div>
+</div>
+
+<% if (queryParams.search) { %>
+    <div class="mb-4">
+        <h4 class="fw-bold">Search results for "<%= queryParams.search %>"</h4>
+        <p class="text-muted"><%= allListings.length %> stays found in this destination</p>
+    </div>
+<% } %>
+
+
+<% if (allListings && allListings.length > 0) { %>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4 mt-1 mb-5">
+    <% for(let listing of allListings) { %>
+        <div class="col">
+            <a href="/listings/<%= listing._id %>" class="listing-link">
+                <div class="card listing-card h-100 position-relative">
+                    <div class="card-img-wrapper position-relative">
+                        <img src="<%= (listing.image && listing.image.url) ? listing.image.url : listing.image %>" class="card-img-top" alt="Explore listing stay">
+                        <div class="position-absolute top-0 end-0 p-3 z-3">
+                            <i class="fa-regular fa-heart heart-btn"></i>
+                        </div>
+                    </div>
+                    <div class="listing-card-body mt-2">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <h5 class="listing-title"><%= listing.location %>, <%= listing.country %></h5>
+                            <span class="text-dark fw-light ms-2"><i class="fa-solid fa-star fa-xs me-1 text-warning"></i>Recently added</span>
+                        </div>
+                        <p class="listing-desc mb-0"><%= listing.title %></p>
+                        <p class="listing-desc"><%= listing.category %></p>
+                        <p class="listing-price">
+                            <span class="fw-bold fs-6">₹<%= listing.price.toLocaleString("en-IN") %></span> night
+                            <i class="tax-info d-none ms-1 text-danger fw-bold" style="font-size: 0.8rem;"> &nbsp;+18% GST</i>
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    <% } %>
+</div>
+
+<script>
+    let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+    taxSwitch.addEventListener("click", () => {
+        let taxInfo = document.getElementsByClassName("tax-info");
+        for (let info of taxInfo) {
+            if (info.classList.contains("d-none")) {
+                info.classList.remove("d-none");
+            } else {
+                info.classList.add("d-none");
+            }
+        }
+    });
+</script>
+
+<!-- Pagination Controls -->
+<% if (totalPages > 1) { %>
+    <div class="d-flex justify-content-center mt-4 mb-5">
+        <nav aria-label="Page navigation">
+            <ul class="pagination pagination-lg">
+                <% 
+                    let queryStr = '';
+                    if(typeof queryParams !== 'undefined') {
+                        for(let key in queryParams) {
+                            if(key !== 'page' && queryParams[key]) {
+                                queryStr += `&${key}=${queryParams[key]}`;
+                            }
+                        }
+                    }
+                %>
+                <li class="page-item <%= currentPage <= 1 ? 'disabled' : '' %>">
+                    <a class="page-link shadow-none border rounded-start-pill px-4 text-dark fw-bold" href="?page=<%= currentPage - 1 %><%= queryStr %>" tabindex="-1" aria-disabled="<%= currentPage <= 1 ? 'true' : 'false' %>">Previous</a>
+                </li>
+                <li class="page-item active">
+                    <span class="page-link shadow-none border text-white fw-bold bg-danger" style="background-color: #e61e4d !important; border-color: #e61e4d !important;"><%= currentPage %> of <%= totalPages %></span>
+                </li>
+                <li class="page-item <%= currentPage >= totalPages ? 'disabled' : '' %>">
+                    <a class="page-link shadow-none border rounded-end-pill px-4 text-dark fw-bold" href="?page=<%= currentPage + 1 %><%= queryStr %>" aria-disabled="<%= currentPage >= totalPages ? 'true' : 'false' %>">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+<% } %>
+
+<% } else { %>
+    <div class="col-12 mt-4 mb-5">
+         <div class="p-5 text-center bg-light rounded-4 border border-secondary d-flex flex-column align-items-center justify-content-center">
+             <i class="fa-solid fa-magnifying-glass text-muted mb-3" style="font-size: 3rem;"></i>
+             <h3 class="fw-bold fs-3 text-dark mb-2">No exact matches found</h3>
+             <p class="text-muted mb-4 fs-6 w-50">Try changing or removing some of your filters or adjusting your search area.</p>
+             <a href="/listings" class="btn btn-outline-dark px-4 py-2 rounded-pill fw-bold border-2">Remove all filters</a>
+         </div>
+    </div>
+<% } %>

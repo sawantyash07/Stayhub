@@ -1,0 +1,7 @@
+node_modules
+.env
+srv_lookup.txt
+test_db.js
+inspect_mongo.js
+*.log
+.DS_Store
