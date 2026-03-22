@@ -53,11 +53,12 @@ router.post('/', wrapAsync(async (req, res, next) => {
         listingId: listing._id,
         checkInDate: checkInDate,
         checkOutDate: checkOutDate,
-        totalPrice: totalPrice
+        totalPrice: totalPrice,
+        guests: req.body.booking.guests
     });
 
     await newBooking.save();
-
+    req.flash("success", "Booking confirmed! You have connected successfully.");
     res.redirect(`/bookings/${newBooking._id}/confirmation`);
 }));
 

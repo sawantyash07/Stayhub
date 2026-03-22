@@ -258,24 +258,48 @@
                             <div class="d-flex border-bottom border-secondary">
                                 <div class="p-2 ps-3 w-50 border-end border-secondary pointer hover-bg rounded-top-start position-relative">
                                     <label for="checkInDate" class="m-0 text-dark" style="font-size:0.65rem; font-weight:800; letter-spacing:1px; cursor: pointer; display: block;">CHECK-IN</label>
-                                    <input type="date" id="checkInDate" name="booking[checkInDate]" class="form-control border-0 p-0 shadow-none bg-transparent fw-semibold text-dark w-100" required style="font-size: 0.95rem; cursor: pointer;" min="<%= new Date().toISOString().split('T')[0] %>">
+                                    <input type="text" id="checkInDate" name="booking[checkInDate]" class="form-control border-0 p-0 shadow-none bg-transparent fw-semibold text-dark w-100" placeholder="Add date" required style="font-size: 0.95rem; cursor: pointer;">
                                 </div>
                                 <div class="p-2 ps-3 w-50 pointer hover-bg rounded-top-end position-relative">
                                     <label for="checkOutDate" class="m-0 text-dark" style="font-size:0.65rem; font-weight:800; letter-spacing:1px; cursor: pointer; display: block;">CHECKOUT</label>
-                                    <input type="date" id="checkOutDate" name="booking[checkOutDate]" class="form-control border-0 p-0 shadow-none bg-transparent fw-semibold text-dark w-100" required style="font-size: 0.95rem; cursor: pointer;" min="<%= new Date().toISOString().split('T')[0] %>">
+                                    <input type="text" id="checkOutDate" name="booking[checkOutDate]" class="form-control border-0 p-0 shadow-none bg-transparent fw-semibold text-dark w-100" placeholder="Add date" required style="font-size: 0.95rem; cursor: pointer;">
                                 </div>
                             </div>
                             <div class="p-2 ps-3 pointer hover-bg rounded-bottom">
-                                <div style="font-size:0.65rem; font-weight:800; letter-spacing:1px">GUESTS</div>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span class="text-dark" style="font-size: 0.95rem">1 guest</span>
-                                    <i class="fa-solid fa-chevron-down text-dark"></i>
-                                </div>
+                                <label for="guests" class="m-0 text-dark" style="font-size:0.65rem; font-weight:800; letter-spacing:1px; cursor: pointer; display: block;">GUESTS</label>
+                                <select name="booking[guests]" id="guests" class="form-select border-0 p-0 shadow-none bg-transparent fw-semibold text-dark w-100 fs-6" style="cursor: pointer;">
+                                    <option value="1">1 guest</option>
+                                    <option value="2">2 guests</option>
+                                    <option value="3">3 guests</option>
+                                    <option value="4">4 guests</option>
+                                    <option value="5">5 guests</option>
+                                    <option value="6">6 guests</option>
+                                </select>
                             </div>
                         </div>
 
                         <button type="submit" class="btn btn-danger w-100 py-3 fw-bold rounded-4 mb-3 fs-5" style="background: linear-gradient(to right, #e61e4d 0%, #e31c5f 50%, #d70466 100%); border:none;">Reserve</button>
                     </form>
+
+                    <script>
+                        document.addEventListener("DOMContentLoaded", () => {
+                            const checkInInput = document.getElementById("checkInDate");
+                            const checkOutInput = document.getElementById("checkOutDate");
+
+                            const fp = flatpickr("#checkInDate", {
+                                minDate: "today",
+                                dateFormat: "Y-m-d",
+                                onChange: function(selectedDates, dateStr, instance) {
+                                    checkOutFp.set("minDate", dateStr || "today");
+                                }
+                            });
+
+                            const checkOutFp = flatpickr("#checkOutDate", {
+                                minDate: "today",
+                                dateFormat: "Y-m-d"
+                            });
+                        });
+                    </script>
                     
                     <p class="text-center text-muted mb-4 fs-6">You won't be charged yet</p>
                     

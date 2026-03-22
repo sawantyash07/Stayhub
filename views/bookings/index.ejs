@@ -9,7 +9,7 @@
                 <% for(let booking of bookings) { %>
                     <div class="col">
                         <div class="card listing-card h-100 border p-3 rounded-4 overflow-hidden d-flex flex-row gap-3 shadow-sm bg-white hover-bg" style="border-color: #dddddd !important;">
-                            <img src="<%= booking.listingId.image %>" class="rounded-3" alt="Property Image" style="width: 130px; height: 130px; object-fit: cover;">
+                            <img src="<%= (booking.listingId.image && booking.listingId.image.url) ? booking.listingId.image.url : booking.listingId.image %>" class="rounded-3" alt="Property Image" style="width: 130px; height: 130px; object-fit: cover;">
                             <div class="d-flex flex-column justify-content-between w-100 h-100">
                                 <div>
                                     <h5 class="card-title fw-bold mb-1 text-truncate" style="max-width: 250px;"><%= booking.listingId.title %></h5>
@@ -23,6 +23,10 @@
                                     <div class="d-flex justify-content-between">
                                         <span class="text-muted fw-semibold" style="font-size: 0.75rem;">CHECKOUT</span>
                                         <span class="fw-bold text-dark" style="font-size: 0.85rem;"><%= booking.checkOutDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-1">
+                                        <span class="text-muted fw-semibold" style="font-size: 0.75rem;">GUESTS</span>
+                                        <span class="fw-bold text-dark" style="font-size: 0.85rem;"><%= booking.guests || 1 %> <%= (booking.guests || 1) > 1 ? 'guests' : 'guest' %></span>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mt-auto">

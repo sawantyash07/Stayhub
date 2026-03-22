@@ -28,9 +28,9 @@
                  <div class="row g-3 mb-3">
                      <div class="col-md-4">
                          <div class="form-floating">
-                             <input name="listing[price]" value="<%= listing.price %>" type="number" class="form-control" id="price" required />
+                             <input name="listing[price]" value="<%= listing.price %>" type="number" class="form-control" id="price" required min="0" step="any" />
                              <label for="price">Price / Night (₹)</label>
-                             <div class="invalid-feedback">Please provide a valid price.</div>
+                             <div class="invalid-feedback">Please provide a valid price (non-negative).</div>
                          </div>
                      </div>
                      <div class="col-md-8">

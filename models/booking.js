@@ -23,6 +23,10 @@ const bookingSchema = new Schema({
         type: Number,
         required: true
     },
+    guests: {
+        type: Number,
+        default: 1
+    },
     createdAt: {
         type: Date,
         default: Date.now
